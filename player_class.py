@@ -10,9 +10,12 @@ class Player:
     def __str__(self) -> str:
         return f"Player ID: {self.id},\t Player Skill: {self.skill}"
 
-    def play(self, player_2) -> None:
+    def play(self, player_2, num_rounds = 1) -> None:
+        result = 0
         relative_log_difference = np.pow(10, (self.skill - player_2.skill)/0.2)
-        result = np.random.random() < relative_log_difference/(relative_log_difference + 1)
+        for _ in range(num_rounds): 
+            result += np.random.random() < relative_log_difference/(relative_log_difference + 1)
+        result = result > num_rounds / 2
         self.wl_record.append(result)
         self.game_record.append(player_2.id)
         player_2.wl_record.append(not result)
